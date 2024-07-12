@@ -9,16 +9,17 @@ import {
   Text,
   Button,
 } from "@react-email/components";
+import React from "react";
 
 interface VerificationEmailProps {
   username: string;
   otp: string;
 }
 
-export default function VerificationEmail({
+const VerificationEmail: React.FC<Readonly<VerificationEmailProps>> = ({
   username,
   otp,
-}: VerificationEmailProps) {
+}) => {
   return (
     <Html lang="en" dir="ltr">
       <Head>
@@ -64,4 +65,6 @@ export default function VerificationEmail({
       </Section>
     </Html>
   );
-}
+};
+
+export default VerificationEmail;
