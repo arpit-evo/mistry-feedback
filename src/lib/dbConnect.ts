@@ -11,7 +11,9 @@ const dbConnect = async (): Promise<void> => {
     console.log("Already connected to database");
   }
   try {
-    const db = await mongoose.connect(process.env.MONGODB_URI || "");
+    const db = await mongoose.connect(process.env.MONGODB_URI || "", {
+      dbName: "mistry-feedback",
+    });
 
     connection.isConnected = db.connections[0].readyState;
 
@@ -22,4 +24,4 @@ const dbConnect = async (): Promise<void> => {
   }
 };
 
-export default dbConnect
+export default dbConnect;

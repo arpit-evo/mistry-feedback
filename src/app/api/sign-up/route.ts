@@ -10,7 +10,7 @@ export const POST = async (request: NextRequest) => {
 
     const { username, email, password } = await request.json();
 
-    const existingUserVerifiedByUsername = await UserModel.find({
+    const existingUserVerifiedByUsername = await UserModel.findOne({
       username,
       isVerified: true,
     });
@@ -54,6 +54,7 @@ export const POST = async (request: NextRequest) => {
         email,
         password: hashPassword,
         verifyCode,
+        verifyCodeExpiry: expiryDate,
         isVerified: false,
         isAcceptingMessages: true,
         messages: [],
