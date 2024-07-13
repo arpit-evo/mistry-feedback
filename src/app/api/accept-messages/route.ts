@@ -46,3 +46,46 @@ export const POST = async (request: NextRequest) => {
     );
   }
 };
+
+export const GET = async (request: NextRequest) => {
+  await dbConnect();
+
+  const session = await getServerSession(authOptions);
+  const user: User = session?.user as User;
+
+  if (!session || !session.user) {
+    return NextResponse.json(
+      { success: false, message: "Not authenticated" },
+      { status: 401 }
+    );
+  }
+
+  const userId = user._id;
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        isAcceptingMessages: user.isAcceptingMessages,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error retrieving message acceptance status:", error);
+    return NextResponse.json(
+      { success: false, message: "Error retrieving message acceptance status" },
+      { status: 500 }
+    );
+  }
+};
